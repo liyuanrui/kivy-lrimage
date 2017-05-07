@@ -1,0 +1,109 @@
+<Dutton@Button>:
+    font_name: 'droid.ttf'
+
+<Label>:
+    font_name: 'droid.ttf'
+
+<MyLayout>:
+    popup1: popup1.__self__
+    popup2: popup2.__self__
+    orientation: 'vertical'
+    
+   
+    BoxLayout:
+        id: bl
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            
+            size_hint_y:None
+            height: '48dp'
+            Dutton:
+                text: '打开'
+                on_release:root.popup1.open()
+            Dutton:
+                text: '保存'
+                on_release:root.popup2.open()
+        Popup:
+            id: popup1
+            padding:25
+            spacing:25
+            title: "Open Image"
+            font_name: 'droid.ttf'
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+            FileChooserListView:
+                rootpath: '/sdcard'
+                id:filechooser
+                BoxLayout:
+                    
+                    pos_hint: {'center_x':0.5}
+                    orientation: 'horizontal'
+                    size_hint_y:None
+                    height: '48dp'
+   
+                    
+                    Dutton:
+                        text: '取消'
+                        on_release:popup1.dismiss()
+                    Dutton:
+                        text: '加载'
+                        on_press:root.load(filechooser.path,filechooser.selection)
+                        on_release:popup1.dismiss()
+
+        Popup:
+            id: popup2
+            padding:25
+            spacing:25
+            title: "Save Image"
+            font_name: 'droid.ttf'
+            on_parent:
+                if self.parent == bl: self.parent.remove_widget(self)
+            FileChooserListView:
+                rootpath: '/sdcard'
+                id:filechooser2
+                BoxLayout:
+                    
+                    pos_hint: {'center_x':0.5}
+                    orientation: 'horizontal'
+                    size_hint_y:None
+                    height: '48dp'
+   
+                    
+                    Dutton:
+                        text: '取消'
+                        on_release:popup2.dismiss()
+                    Dutton:
+                        text: '保存'
+                        on_press:root.save(filechooser2.path)
+                        on_release:popup2.dismiss()
+    
+        Label:
+            text: '图像处理:'
+            size_hint_y:None
+            height:'48dp'
+            text_size:self.size
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y:None
+            height: '48dp'
+            Dutton:
+                text: '轮廓化'
+                on_release:root.canny()
+            Dutton:
+                text: '位运算非'
+                on_release:root.witnot()
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Image:
+                id:image
+                source:'back.jpg'
+                pos_hint:{'center_x':0.5}
+            Image:
+                id:image2
+                source:'back.jpg'
+                pos_hint:{'center_x':0.5}
+            
+                
+                
